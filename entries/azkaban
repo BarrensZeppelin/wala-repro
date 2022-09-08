@@ -1,0 +1,11 @@
+azkaban/execapp/AzkabanExecutorServer,main,([Ljava/lang/String;)V
+azkaban/jobtype/JavaJobRunnerMain,main,([Ljava/lang/String;)V
+azkaban/jobtype/HadoopJavaJobRunnerMain,main,([Ljava/lang/String;)V
+azkaban/jobtype/HadoopSecurePigWrapper,main,([Ljava/lang/String;)V
+azkaban/jobtype/SecurePigWrapper,main,([Ljava/lang/String;)V
+azkaban/jobtype/HadoopSecureHiveWrapper,main,([Ljava/lang/String;)V
+azkaban/jobtype/HadoopSecureSparkWrapper,main,([Ljava/lang/String;)V
+azkaban/webapp/AzkabanWebServer,main,([Ljava/lang/String;)V
+azkaban/crypto/EncryptionCLI,main,([Ljava/lang/String;)V
+azkaban/soloserver/AzkabanSingleServer,main,([Ljava/lang/String;)V
+azkaban/database/AzkabanDatabaseUpdater,main,([Ljava/lang/String;)V

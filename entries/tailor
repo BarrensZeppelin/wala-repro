@@ -1,0 +1,7 @@
+com/sleekbyte/tailor/Tailor,main,([Ljava/lang/String;)V
+org/antlr/v4/Tool,main,([Ljava/lang/String;)V
+org/antlr/v4/gui/TestRig,main,([Ljava/lang/String;)V
+org/antlr/v4/runtime/misc/LogManager,main,([Ljava/lang/String;)V
+org/antlr/v4/runtime/misc/TestRig,main,([Ljava/lang/String;)V
+org/antlr/v4/runtime/misc/FlexibleHashMap,main,([Ljava/lang/String;)V
+org/stringtemplate/v4/gui/STViz,main,([Ljava/lang/String;)V

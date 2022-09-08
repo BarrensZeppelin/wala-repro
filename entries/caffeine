@@ -1,0 +1,5 @@
+com/github/benmanes/caffeine/examples/writebehind/rxjava/WriteBehindCacheWriterTest,givenCacheUpdate_writeBehindIsCalled,()V
+com/github/benmanes/caffeine/examples/writebehind/rxjava/WriteBehindCacheWriterTest,givenCacheUpdateOnMultipleKeys_writeBehindIsCalled,()V
+com/github/benmanes/caffeine/examples/writebehind/rxjava/WriteBehindCacheWriterTest,givenMultipleCacheUpdatesOnSameKey_writeBehindIsCalledWithMostRecentTime,()V
+com/github/benmanes/caffeine/examples/coalescing/bulkloader/CoalescingBulkloaderTest,maxDelayIsNotMissedTooMuch,()V
+com/github/benmanes/caffeine/examples/coalescing/bulkloader/CoalescingBulkloaderTest,whenEnoughKeysAreRequestedTheLoadWillHappenImmediately,()V
