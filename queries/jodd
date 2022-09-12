@@ -1,0 +1,12 @@
+jodd/lagarto/dom/Node,filterChildNodes,(Ljava/util/function/Predicate;)[Ljodd/lagarto/dom/Node;,java/util/List,stream,()Ljava/util/stream/Stream;
+jodd/joy/JoyMadvoc,printRoutes,(I)V,java/util/List,stream,()Ljava/util/stream/Stream;
+jodd/util/CollectionUtilTest$AsStream,testAsStream_with_empty_iterator,()V,java/util/List,iterator,()Ljava/util/Iterator;
+jodd/util/CollectionUtilTest$AsStream,testAsStream_with_non_empty_iterator,()V,java/util/List,iterator,()Ljava/util/Iterator;
+jodd/io/FindFileTest,testFindAll,()V,java/util/List,stream,()Ljava/util/stream/Stream;
+jodd/json/JsonObject,stream,()Ljava/util/stream/Stream;,java/util/Set,stream,()Ljava/util/stream/Stream;
+jodd/json/JsonObject,stream,()Ljava/util/stream/Stream;,java/util/Set,stream,()Ljava/util/stream/Stream;
+jodd/json/JsonParserTest,lambda$testLazyParserSupportTrailingEscapedBackslash$27,(Ljava/lang/String;Ljodd/json/JsonParser;)V,java/util/Set,stream,()Ljava/util/stream/Stream;
+jodd/json/JsonParserTest,lambda$testLazyParserSupportEscapedDoubleQuotes$26,(Ljava/lang/String;Ljodd/json/JsonParser;)V,java/util/Set,stream,()Ljava/util/stream/Stream;
+jodd/json/JsonParserTest,lambda$testLazyParserPreservesFieldOrder$25,(Ljava/lang/String;Ljodd/json/JsonParser;)V,java/util/Set,stream,()Ljava/util/stream/Stream;
+jodd/json/JsonArray,stream,()Ljava/util/stream/Stream;,java/util/List,stream,()Ljava/util/stream/Stream;
+jodd/proxetta/MethodSignatureVisitorTest,getMethodSignatureForSingleMethod,(Ljava/lang/Class;)Ljodd/proxetta/MethodInfo;,java/util/Collection,stream,()Ljava/util/stream/Stream;

@@ -1,0 +1,16 @@
+org/apdplat/word/segmentation/impl/AbstractSegmentation,segDefault,(Ljava/lang/String;)Ljava/util/List;,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/segmentation/impl/FullSegmentation,disambiguity,(Ljava/util/Map;)Ljava/util/List;,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/segmentation/SegmentationContrast,dump,(Ljava/util/Map;)V,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/util/WordConfTools,reload,()V,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/util/DoubleArrayGenericTrie,putAll,(Ljava/util/Map;)V,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/recognition/PersonName,selectBest,(Ljava/util/List;)Ljava/util/List;,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/recognition/PersonName,lambda$selectBest$2,(Ljava/util/concurrent/atomic/AtomicInteger;Ljava/util/Map;Ljava/util/List;)V,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/dictionary/DictionaryFactory$DictionaryHolder$1,add,(Ljava/lang/String;)V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/dictionary/DictionaryFactory$DictionaryHolder$1,getAllWords,(Ljava/util/List;)Ljava/util/List;,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/dictionary/impl/DoubleArrayDictionaryTrie,addAll,(Ljava/util/List;)V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/dictionary/DictionaryTools,merge,(Ljava/util/List;Ljava/lang/String;)V,java/util/List,iterator,()Ljava/util/Iterator;
+org/apdplat/word/tagging/AntonymTagging,process,(Ljava/util/List;)V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/tagging/PartOfSpeechTagging,process,(Ljava/util/List;)V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/analysis/SimilarityRanker,main,([Ljava/lang/String;)V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/analysis/TextSimilarity,formatWordsFrequency,(Ljava/util/Map;)Ljava/lang/String;,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/apdplat/word/analysis/HotWord,main,([Ljava/lang/String;)V,java/util/Set,stream,()Ljava/util/stream/Stream;

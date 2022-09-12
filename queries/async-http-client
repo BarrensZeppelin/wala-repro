@@ -1,0 +1,10 @@
+org/asynchttpclient/ClientStats,getTotalConnectionCount,()J,java/util/Collection,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/ClientStats,getTotalActiveConnectionCount,()J,java/util/Collection,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/ClientStats,getTotalIdleConnectionCount,()J,java/util/Collection,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/cookie/ThreadSafeCookieStore,getAll,()Ljava/util/List;,java/util/Collection,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/cookie/ThreadSafeCookieStore,getStoredCookies,(Ljava/lang/String;Ljava/lang/String;ZZ)Ljava/util/List;,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/netty/channel/DefaultChannelPool,getIdleChannelCountPerHost,()Ljava/util/Map;,java/util/Collection,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/netty/channel/ChannelManager,getClientStats,()Lorg/asynchttpclient/ClientStats;,java/util/Set,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/CookieStoreTest,handleMultipleCookieOfSameNameOnDifferentPaths,()V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/CookieStoreTest,returnMultipleCookiesEvenIfTheyHaveSameName,()V,java/util/List,stream,()Ljava/util/stream/Stream;
+org/asynchttpclient/CookieStoreTest,shouldCleanExpiredCookieFromUnderlyingDataStructure,()V,java/util/List,stream,()Ljava/util/stream/Stream;

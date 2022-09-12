@@ -1,0 +1,1 @@
+com/github/benmanes/caffeine/examples/writebehind/rxjava/WriteBehindCacheWriter,lambda$new$0,(Lcom/github/benmanes/caffeine/examples/writebehind/rxjava/WriteBehindCacheWriter$Builder;Ljava/util/List;)Ljava/util/Map;,java/util/List,stream,()Ljava/util/stream/Stream;
