@@ -6,10 +6,7 @@ import com.ibm.wala.classLoader.Language;
 import com.ibm.wala.core.util.config.AnalysisScopeReader;
 import com.ibm.wala.core.util.strings.Atom;
 import com.ibm.wala.demandpa.alg.DemandRefinementPointsTo;
-import com.ibm.wala.demandpa.alg.refinepolicy.NeverRefineCGPolicy;
-import com.ibm.wala.demandpa.alg.refinepolicy.NeverRefineFieldsPolicy;
-import com.ibm.wala.demandpa.alg.refinepolicy.RefinementPolicyFactory;
-import com.ibm.wala.demandpa.alg.refinepolicy.SinglePassRefinementPolicy;
+import com.ibm.wala.demandpa.alg.refinepolicy.*;
 import com.ibm.wala.demandpa.alg.statemachine.DummyStateMachine;
 import com.ibm.wala.demandpa.alg.statemachine.StateMachineFactory;
 import com.ibm.wala.demandpa.flowgraph.IFlowLabel;
@@ -181,7 +178,7 @@ public class App {
 			// for a single pass
 			RefinementPolicyFactory refinementPolicyFactory =
 					new SinglePassRefinementPolicy.Factory(
-							new NeverRefineFieldsPolicy(), new NeverRefineCGPolicy(), 1000);
+							new OnlyArraysPolicy(), new NeverRefineCGPolicy(), 1000);
 			drpt.setRefinementPolicyFactory(refinementPolicyFactory);
 
 			System.out.println("Successfully initialised WALA");
