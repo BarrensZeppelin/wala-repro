@@ -178,7 +178,9 @@ public class App {
 			// for a single pass
 			RefinementPolicyFactory refinementPolicyFactory =
 					new SinglePassRefinementPolicy.Factory(
-							new OnlyArraysPolicy(), new NeverRefineCGPolicy(), 1000);
+							new OnlyArraysPolicy(),
+							//new NeverRefineFieldsPolicy(),
+							new NeverRefineCGPolicy(), 100000);
 			drpt.setRefinementPolicyFactory(refinementPolicyFactory);
 
 			System.out.println("Successfully initialised WALA");
@@ -211,7 +213,7 @@ public class App {
 
 				CGNode node = chaCG.getNode(method, EVERYWHERE);
 				if(node == null) { // ???
-					System.err.println("CGNodeNull?");
+					System.out.println("CGNodeNull?");
 					continue;
 				}
 
@@ -239,7 +241,7 @@ public class App {
 						res = drpt.getPointsTo(pk, k -> true);
 						stopwatch.stop();
 					} catch (AssertionError | IllegalArgumentException | NullPointerException exc) {
-						System.err.println(exc);
+						System.out.println(exc);
 						continue;
 					}
 
@@ -254,10 +256,10 @@ public class App {
 							.collect(Collectors.toSet());
 
 					if (concreteTypes.size() == 0) { // ???
-						System.err.println("WALA query found 0 concrete types?");
+						System.out.println("WALA query found 0 concrete types?");
 						continue;
 					} else if (concreteTypes.size() > 1) {
-						System.err.format("WALA query found %d possible concrete receiver types: %s\n", concreteTypes.size(),
+						System.out.format("WALA query found %d possible concrete receiver types: %s\n", concreteTypes.size(),
 								concreteTypes.stream().limit(10).collect(Collectors.toList()));
 						continue;
 					}
