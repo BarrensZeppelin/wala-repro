@@ -6,7 +6,10 @@ import com.ibm.wala.classLoader.Language;
 import com.ibm.wala.core.util.config.AnalysisScopeReader;
 import com.ibm.wala.core.util.strings.Atom;
 import com.ibm.wala.demandpa.alg.DemandRefinementPointsTo;
-import com.ibm.wala.demandpa.alg.refinepolicy.*;
+import com.ibm.wala.demandpa.alg.refinepolicy.NeverRefineCGPolicy;
+import com.ibm.wala.demandpa.alg.refinepolicy.OnlyArraysPolicy;
+import com.ibm.wala.demandpa.alg.refinepolicy.RefinementPolicyFactory;
+import com.ibm.wala.demandpa.alg.refinepolicy.SinglePassRefinementPolicy;
 import com.ibm.wala.demandpa.alg.statemachine.DummyStateMachine;
 import com.ibm.wala.demandpa.alg.statemachine.StateMachineFactory;
 import com.ibm.wala.demandpa.flowgraph.IFlowLabel;
@@ -16,9 +19,7 @@ import com.ibm.wala.ipa.callgraph.*;
 import com.ibm.wala.ipa.callgraph.cha.CHACallGraph;
 import com.ibm.wala.ipa.callgraph.impl.DefaultEntrypoint;
 import com.ibm.wala.ipa.callgraph.impl.Util;
-import com.ibm.wala.ipa.callgraph.propagation.HeapModel;
-import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
-import com.ibm.wala.ipa.callgraph.propagation.PointerKey;
+import com.ibm.wala.ipa.callgraph.propagation.*;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
 import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
@@ -42,12 +43,12 @@ import java.util.stream.Collectors;
 
 import static com.ibm.wala.ipa.callgraph.impl.Everywhere.EVERYWHERE;
 
-public class App {
+public class AppWP {
 	private static AnalysisScope scope;
-	private static CHACallGraph chaCG;
+	private static ClassHierarchy cha;
 
 	private static IClass lookupClass(String name) {
-		IClass cls = chaCG.getClassHierarchy().lookupClass(TypeReference.findOrCreate(scope.getApplicationLoader(), "L" + name));
+		IClass cls = cha.lookupClass(TypeReference.findOrCreate(scope.getApplicationLoader(), "L" + name));
 		if(cls == null)
 			throw new NullPointerException();
 		return cls;
@@ -113,11 +114,10 @@ public class App {
 					writer.format("Application,Java,binaryDir,%s\n", classDirectory);
 			}
 
-			scope = AnalysisScopeReader.instance.readJavaScope(scopeFile.getPath(), null, App.class.getClassLoader());
+			scope = AnalysisScopeReader.instance.readJavaScope(scopeFile.getPath(), null, AppWP.class.getClassLoader());
 
 			// We need a baseline call graph.  Here we use a CHACallGraph based on a ClassHierarchy.
-			ClassHierarchy cha = ClassHierarchyFactory.make(scope);
-			chaCG = new CHACallGraph(cha);
+			cha = ClassHierarchyFactory.make(scope);
 
 			// Read entrypoints from file
 			File entriesFile = new File("entries/" + repoPath.getFileName());
@@ -139,19 +139,11 @@ public class App {
 				throw new RuntimeException(e);
 			}
 
-			WUtil.time("CHA CG Init", () -> {
-				try {
-					chaCG.init(entrypoints);
-				} catch (CancelException e) {
-					throw new RuntimeException(e);
-				}
-			});
-
 			AnalysisOptions options = new AnalysisOptions();
 			options.setEntrypoints(entrypoints);
+			options.setReflectionOptions(AnalysisOptions.ReflectionOptions.NONE);
 			IAnalysisCacheView cache = new AnalysisCacheImpl();
 
-			/*
 			SSAPropagationCallGraphBuilder builder = Util.makeZeroCFABuilder(Language.JAVA, options, cache, cha);
 			CallGraph cg = WUtil.time("0 CFA CG Init", () -> {
 				try {
@@ -160,28 +152,7 @@ public class App {
 					throw new RuntimeException(e);
 				}
 			});
-			 */
-
-			// We also need a heap model to create InstanceKeys for allocation sites, etc.
-			// Here we use a 0-1 CFA builder, which will give a heap abstraction similar to
-			// context-insensitive Andersen's analysis
-			HeapModel heapModel = Util.makeZeroOneCFABuilder(Language.JAVA, options, cache, cha);
-			// The MemoryAccessMap helps the demand analysis find matching field reads and writes
-			MemoryAccessMap mam = new SimpleMemoryAccessMap(chaCG, heapModel, false);
-			// The StateMachineFactory helps in tracking additional states like calling contexts.
-			// For context-insensitive analysis we use a DummyStateMachine.Factory
-			StateMachineFactory<IFlowLabel> stateMachineFactory = new DummyStateMachine.Factory<>();
-			DemandRefinementPointsTo drpt = DemandRefinementPointsTo.makeWithDefaultFlowGraph(
-					chaCG, heapModel, mam, cha, options, stateMachineFactory);
-			// The RefinementPolicyFactory determines how the analysis refines match edges (see PLDI'06
-			// paper).  Here we use a policy that does not perform refinement and just uses a fixed budget
-			// for a single pass
-			RefinementPolicyFactory refinementPolicyFactory =
-					new SinglePassRefinementPolicy.Factory(
-							new OnlyArraysPolicy(),
-							//new NeverRefineFieldsPolicy(),
-							new NeverRefineCGPolicy(), 100000);
-			drpt.setRefinementPolicyFactory(refinementPolicyFactory);
+			PointerAnalysis<InstanceKey> pa = builder.getPointerAnalysis();
 
 			System.out.println("Successfully initialised WALA");
 
@@ -211,7 +182,7 @@ public class App {
 				IClass cls = query.from.owner;
 				IMethod method = cls.getMethod(query.from.selector);
 
-				CGNode node = chaCG.getNode(method, EVERYWHERE);
+				CGNode node = cg.getNode(method, EVERYWHERE);
 				if(node == null) { // ???
 					System.out.println("CGNodeNull?");
 					continue;
@@ -233,15 +204,17 @@ public class App {
 
 				// Now we have the matching call site, so we can query for the type of the receiver of the call.
 				for(SSAAbstractInvokeInstruction invoke : matchingCalls) {
-					PointerKey pk = heapModel.getPointerKeyForLocal(node, invoke.getUse(0));
+					PointerKey pk = builder.getPointerKeyForLocal(node, invoke.getUse(0));
 					Pair<DemandRefinementPointsTo.PointsToResult, Collection<InstanceKey>> res;
 					Stopwatch stopwatch = new Stopwatch();
 					try {
 						stopwatch.start();
-						res = drpt.getPointsTo(pk, k -> true);
+						Collection<InstanceKey> keys = new ArrayList<>();
+						pa.getPointsToSet(pk).forEach(keys::add);
+						res = Pair.make(DemandRefinementPointsTo.PointsToResult.SUCCESS, keys);
 						stopwatch.stop();
 					} catch (AssertionError | IllegalArgumentException | NullPointerException exc) {
-						exc.printStackTrace();
+						System.out.println(exc);
 						continue;
 					}
 
